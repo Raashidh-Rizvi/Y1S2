@@ -1,114 +1,128 @@
-import java.util.Scanner;
+/* You have been hired by an E-Commerce Company to develop a Shopping Discount
+ System that calculates the final price of products based on discounts and promotional
+ offers.
+ Each product has a base price, and customers can receive discounts based on their mem
+bership type or seasonal promotions. The system should allow for flexible discount cal
+culations and ensure that all prices are correctly computed.
+ The discount policy is as follows:
+ Membership Type	Discount Percentage
+Premium Member	20% Off
+Regular Member	10% Off
+Non-Member	No Discount (0%)
+Additionally, the company offers seasonal promotions, which provide an extra discount
+ on top of membership discounts.
+ a) Implement aProduct class with four attributes: productID, productName, basePrice,
+ and membershipType (Premium, Regular, or Non-Member).
+ b) Overload the default constructor of the Product class as follows:
+ a. A constructor that accepts only productID and productName.
+ b. A constructor that accepts productID, productName, and basePrice.
+ c. A constructor that initializes all four attributes
+ c) Implement getters and setters for membershipType and basePrice. The setter
+ for membershipType must ensure that only valid types (Premium, Regular, Non
+Member) are accepted; otherwise, it should set to Non-Member.
+ d) Create two versions of the calculateFinalPrice() method as;
+ a. A method that calculates the final price based on the membership discount.
+ b. Another that allows an extra seasonal discount (amount
+ c. as a parameter) without modifying the stored values.
+ e) Implement a displayProductDetails() method to print all relevant details, including
+ the final price after discounts.
+ f) Implement a main method and create Product objects to demonstrate the above
+ variations of constructors. Then call the appropriate methods to calculate the final
+ prices and display all the details of each product*/
 
-/* You have been assigned to create a system to manage products in a retail store.
- Create a class called Product with the productId (int), productName (String), price
- (double), and quantity (int) as attributes.
- (a) Create Getters and Setters for each attribute. Apply the below validation in the
- setters:
- • price should always be greater than 0.
- • quantity should not be negative.
- (b) Implement a method called displayDetails() to print the product information.
- (c) Implement a method called calculateTotalValue() to calculate and return the total
- value of the stock.
- Total Value = price * quantity
- Create another class named ProductApp containing the main method to do followings:
- (a) Create a Product object.
- (b) Accept user input to set values for each attribute using setters.
- (c) Display the product details using displayDetails().
- (d) Display the total value of the product stock using calculateTotalValue().
- */
-public class Product {
-    private int prodcutId;
-    private String productName;
-    private double price;
-    private int quantity;
-    private double total;
+public class Product{
+    private int ProductID;
+    private String ProductName;
+    private double basePrice;
+    private String Membership;
+    private double DiscountRate;
+    private double finalPrice;
 
-    //create setters and getters
+    public Product(int ProductId,String ProductName){
+        this.ProductID = ProductId;
+        this.ProductName = ProductName;
+        this.basePrice = 0;
+        this.Membership = "Non Member";
 
-    public String getProductName() {
-        return productName;
+    }
+    public Product(int ProductId,String ProductName,double basePrice){
+        this.ProductID = ProductId;
+        this.ProductName = ProductName;
+        this.basePrice = basePrice;
+        this.Membership = "Non Member";
+
+    }
+    public Product(int ProductId,String ProductName,double basePrice,String Membership){
+        this.ProductID = ProductId;
+        this.ProductName = ProductName;
+        this.basePrice = basePrice;
+        setMembership(Membership);
+
     }
 
-    public void setProductName(String prouctName) {
-        productName = prouctName;
+    public double getBasePrice() {
+        return basePrice;
     }
 
-    public int getProductId() {
-        return prodcutId;
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
     }
 
-    public void setProductId(int prodcutId) {
-        this.prodcutId = prodcutId;
+    public String getMembership() {
+        return Membership;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        if (price <= 0) {
-            System.out.println("Price must be greater than 0");
+    public void setMembership(String membership) {
+        if (membership.equals("Premium") || membership.equals("Regular")) {
+            this.Membership= membership + " Member";
+        } else {
+            this.Membership = "Non-Member";
         }
-        else {
-            this.price = price;
-        }
 
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        if (quantity < 0 ){
-            System.out.println("Quantity cannot be negative");
-        }
-        else {
-            this.quantity = quantity;
+        switch (membership){
+            case "Premium": DiscountRate = 20;
+            break;
+            case "Regular": DiscountRate = 10;
+            break;
+            default :DiscountRate = 0;
         }
     }
+    public double calculateFinalPrice(){
+        finalPrice = basePrice-(basePrice*(DiscountRate/100));
+        return finalPrice;
+    }
+    public double calculateFinalPrice(double amount){
+        finalPrice = basePrice-(basePrice*(DiscountRate/100))-amount;
+        return finalPrice;
+    }
 
-    public void displayDetails(){
 
+    public void displayProductDetails(){
+        System.out.println("Product Name: "+ProductName);
+        System.out.println("Product ID: "+ProductID);
+        System.out.println("Base Price: "+basePrice);
+        System.out.println("Membership: "+Membership);
+        System.out.println("Final Price "+calculateFinalPrice());
         System.out.println();
-        System.out.println("Product Id : " + this.prodcutId);
-        System.out.println("Product Name : " + this.productName);
-        System.out.println("Product Price : " + this.price);
-        System.out.println("Qunatity : "+ this.quantity);
-        System.out.println("Total Price : "+ calculateTotalValue());
-
-    }
-    public double calculateTotalValue(){
-
-      this.total=this.price * this.quantity;
-        return total;
-
     }
 
 }
 
-class ProductApp {
-public static void main(String[] args) {
+ class ShoppingDiscountSystem {
+     public static void main(String[] args) {
 
-        Product p1 = new Product();
+         Product p1 = new Product(1,"P1");
+         Product p2 = new Product(2,"P2",100 );
+         Product p3 = new Product(3,"P3",200,"Premium" );
+         Product p4 = new Product(4,"P4",300,"Regular");
+         Product p5 = new Product(5,"P5",400,"non");
 
-        Scanner sc = new Scanner(System.in);
+        p1.displayProductDetails();
+        p2.displayProductDetails();
+        p3.displayProductDetails();
+        p4.displayProductDetails();
+        p5.displayProductDetails();
 
-        System.out.print("Enter the product name: ");
-        p1.setProductName(sc.nextLine());
 
-        System.out.print("Enter the ProductId: ");
-        p1.setProductId(sc.nextInt()) ;
-
-        System.out.print("Enter The Quantity: ");
-        p1.setQuantity(sc.nextInt());
-
-        System.out.print("Enter The Price of the Product: ");
-        p1.setPrice(sc.nextDouble());
-
-        p1.displayDetails();
-
-        p1.calculateTotalValue();
-    }
+     }
 }
