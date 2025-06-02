@@ -11,7 +11,7 @@ Regular Member	10% Off
 Non-Member	No Discount (0%)
 Additionally, the company offers seasonal promotions, which provide an extra discount
  on top of membership discounts.
- a) Implement aProduct class with four attributes: productID, productName, basePrice,
+ a) Implement a Product class with four attributes: productID, productName, basePrice,
  and membershipType (Premium, Regular, or Non-Member).
  b) Overload the default constructor of the Product class as follows:
  a. A constructor that accepts only productID and productName.
@@ -92,8 +92,8 @@ public class Product{
         return finalPrice;
     }
     public double calculateFinalPrice(double amount){
-        finalPrice = basePrice-(basePrice*(DiscountRate/100))-amount;
-        return finalPrice;
+          return finalPrice-(finalPrice*(amount/100));
+     
     }
 
 
@@ -122,6 +122,9 @@ public class Product{
         p3.displayProductDetails();
         p4.displayProductDetails();
         p5.displayProductDetails();
+
+       double estimatedPriceWithSeasonal = p2.calculateFinalPrice(10); 
+        System.out.println("Estimated price for P2 with extra 1% seasonal discount: $" + estimatedPriceWithSeasonal);
 
 
      }
